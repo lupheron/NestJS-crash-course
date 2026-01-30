@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { CreatePropertyDto } from './dto/createProperty.dto';
 
 @Controller('property')
 export class PropertyController {
@@ -8,12 +9,13 @@ export class PropertyController {
     }
 
     @Get(":id/:slug")
-    findOne(@Param("id") id: string, @Param("slug") slug: string) {
+    findOne(@Param("id") id: string, @Param("slug") slug: string, @Query("sort") sort: boolean) {
         return "Find one property" + id;
     }
 
-    @Post() 
-    create(@Body ("name") name, @Body ("age") age) {
-        return name + age
+    @Post()
+    // @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+    create(@Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })) body: CreatePropertyDto) {
+        return body;
     }
 }
