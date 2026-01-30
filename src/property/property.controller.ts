@@ -15,16 +15,12 @@ export class PropertyController {
 
     @Post()
     // @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-    create(@Body(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, groups: ['create'] })) body: CreatePropertyDto) {
+    create(@Body() body: CreatePropertyDto) {
         return body;
     }
 
     @Patch(":id")
-    update(@Body(new ValidationPipe({
-        whitelist: true,
-        forbidNonWhitelisted: true,
-        groups: ['update']
-    })) body: CreatePropertyDto) {
+    update(@Body() body: CreatePropertyDto) {
         return body;
     }
 }
