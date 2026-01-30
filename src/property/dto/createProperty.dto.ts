@@ -1,14 +1,16 @@
-import { IsNumber, IsPositive, IsString, Length } from "class-validator";
+import { IsInt, IsNumber, IsPositive, IsString, Length } from "class-validator";
 
 export class CreatePropertyDto {
-    @IsString()
+    @IsString({always: true})
     @Length(2, 10, { message: "error in length" })
     name: string;
 
-    @IsString()
+    @IsString({always: true})
+    @Length(2, 10, {groups: ['create']})
+    @Length(2, 15, {groups: ['update']})
     description: string;
 
-    @IsNumber()
+    @IsInt({always: true})
     @IsPositive()
     area: number;
 }
