@@ -1,7 +1,10 @@
 import { Body, Controller, Get, Param, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreatePropertyDto } from './dto/createProperty.dto';
 import { IdParamDto } from './dto/idParam.dto';
-import { ParseIdPipe } from './pipes/parseidpipe';
+import { ParseIdPipe } from './pipes/parseIdPipe';
+import { ZodValidationPipe } from './pipes/zodValidationPipe';
+import { createPropertySchema } from './dto/createProperty.Zod';
+import type { CreatePropertyZodDto } from './dto/createProperty.Zod';
 
 @Controller('property')
 export class PropertyController {
@@ -17,7 +20,11 @@ export class PropertyController {
 
     @Post()
     // @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-    create(@Body() body: CreatePropertyDto) {
+    @UsePipes(new ZodValidationPipe(createPropertySchema))
+    create(
+        @Body()
+        body: CreatePropertyZodDto
+    ) {
         return body;
     }
 
