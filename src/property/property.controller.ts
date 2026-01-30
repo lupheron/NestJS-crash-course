@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreatePropertyDto } from './dto/createProperty.dto';
+import { IdParamDto } from './dto/idParam.dto';
 
 @Controller('property')
 export class PropertyController {
@@ -9,7 +10,7 @@ export class PropertyController {
     }
 
     @Get(":id/:slug")
-    findOne(@Param("id") id: string, @Param("slug") slug: string, @Query("sort") sort: boolean) {
+    findOne(@Param("id") id: string, @Query("sort") sort: boolean) {
         return "Find one property" + id;
     }
 
@@ -20,7 +21,10 @@ export class PropertyController {
     }
 
     @Patch(":id")
-    update(@Body() body: CreatePropertyDto) {
+    update(
+        @Param() params: IdParamDto,
+        @Body() body: CreatePropertyDto
+    ) {
         return body;
     }
 }
