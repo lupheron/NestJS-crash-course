@@ -5,6 +5,8 @@ import { ParseIdPipe } from './pipes/parseIdPipe';
 import { ZodValidationPipe } from './pipes/zodValidationPipe';
 import { createPropertySchema } from './dto/createProperty.Zod';
 import type { CreatePropertyZodDto } from './dto/createProperty.Zod';
+import { Headers } from '@nestjs/common';
+import { HeadersDto } from './dto/headers.dto';
 
 @Controller('property')
 export class PropertyController {
@@ -31,8 +33,10 @@ export class PropertyController {
     @Patch(":id")
     update(
         @Param('id', ParseIdPipe) id,
-        @Body() body: CreatePropertyDto
+        @Body() body: CreatePropertyDto,
+        @Headers("host") headers:HeadersDto,
     ) {
-        return body;
+        return {body, headers};
     }
 }
+ 
